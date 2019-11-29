@@ -462,6 +462,11 @@ public class PyramidFromDirectoryWriter implements Callable<Void> {
         littleEndian = !metadata.getPixelsBigEndian(0);
         pixelType = FormatTools.pixelTypeFromString(
           metadata.getPixelsType(0).getValue());
+        OMEXMLMetadataRoot root = (OMEXMLMetadataRoot) metadata.getRoot();
+        for (int image = 0; image<root.sizeOfImageList(); image++) {
+          Pixels pixels = root.getImage(image).getPixels();
+          pixels.setMetadataOnly(null);
+        }
       }
       else {
         metadata = (OMEPyramidStore) service.createOMEXMLMetadata();
